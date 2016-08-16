@@ -1,0 +1,44 @@
+package org.saki.urlcompare;
+
+public class CompareFormat {
+	
+	String channel;
+	String host;
+	String port;
+	String file;
+	public String getURL_STRING() {
+		return URL_STRING;
+	}
+	public void setURL_STRING(String uRLSTRING) {
+		URL_STRING = uRLSTRING;
+	}
+	String URL_STRING;
+	
+	public String getChannel() {
+		return channel;
+	}
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+	public String getHost() {
+		return host;
+	}
+	public void setHost(String host) {
+		this.host = host;
+	}
+	public String getPort() {
+		return port;
+	}
+	public void setPort(String port) {
+		this.port = port;
+	}
+	public String getFile() {
+		return file;
+	}
+	public void setFile(String file) {
+		this.file = file;
+	}
+
+
+
+}
