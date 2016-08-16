@@ -1,0 +1,40 @@
+package org.saki.urlcompare;
+
+class ZXACTVals {
+	String server;
+	String adapter;
+	String service;
+	String httpPort;
+	String httpsPort;
+	
+	public String getServer() {
+		return server;
+	}
+	public void setServer(String server) {
+		this.server = server;
+	}
+	public String getAdapter() {
+		return adapter;
+	}
+	public void setAdapter(String adapter) {
+		this.adapter = adapter;
+	}
+	public String getService() {
+		return service;
+	}
+	public void setService(String service) {
+		this.service = service;
+	}
+	public String getHttpPort() {
+		return httpPort;
+	}
+	public void setHttpPort(String httpPort) {
+		this.httpPort = httpPort;
+	}
+	public String getHttpsPort() {
+		return httpsPort;
+	}
+	public void setHttpsPort(String httpsPort) {
+		this.httpsPort = httpsPort;
+	}
+	}
