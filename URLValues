@@ -1,0 +1,29 @@
+package org.saki.urlcompare;
+
+class URLValues{
+	
+	String businessSystem;
+	String channelName;
+	String urlValue;
+	
+	public String getBusinessSystem() {
+		return businessSystem;
+	}
+	public void setBusinessSystem(String businessSystem) {
+		this.businessSystem = businessSystem;
+	}
+	public String getChannelName() {
+		return channelName;
+	}
+	public void setChannelName(String channelName) {
+		this.channelName = channelName;
+	}
+	public String getUrlValue() {
+		return urlValue;
+	}
+	public void setUrlValue(String urlValue) {
+		this.urlValue = urlValue;
+	}
+	
+	
+}
