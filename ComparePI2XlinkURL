@@ -1,0 +1,194 @@
+package org.saki.urlcompare;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+
+public class ComparePI2XlinkURL {
+	
+	public static String remove_suffix(String in){
+		String out = in;
+		
+		out = out.replace(".ctr.nestle.com", "");
+		out = out.replace(".eur.nestle.com", "");
+		out = out.replace(".aoa.nestle.com", "");
+		out = out.replace(".ams.nestle.com", "");
+		out = out.replace(".nestle.com", "");
+		out = out.replace(".nestle.de", "");
+		out = out.replace(".nestle.es", "");
+		out = out.replace(".nestle.fr", "");
+		
+		return out;
+		
+	}
+	
+	
+	public static void main(String[] args) throws IOException {
+		ArrayList<ZXACTVals>  zxactVals_list = new ArrayList<ZXACTVals>();
+
+		
+		ArrayList<URLValues>  urlVals_list = new ArrayList<URLValues>();
+		
+		
+		ArrayList<CompareFormat> commonFormat_URl_list = new ArrayList<CompareFormat>();
+		
+		
+		ArrayList<CompareFormat> commonFormat_ZXACT_list = new ArrayList<CompareFormat>();
+	 
+		
+		 String csvFile = "C:\\Temp\\E1Q_URL.csv";
+	        BufferedReader br = null;
+	        String line = "";
+	        String cvsSplitBy = ",";
+
+	        try {
+
+	            br = new BufferedReader(new FileReader(csvFile));
+	            while ((line = br.readLine()) != null) {
+
+	                // use comma as separator
+	                String[] urlData = line.split(cvsSplitBy);
+	                
+	                if ( urlData[0].equals("Receiver") && urlData.length > 4){
+//	                System.out.println("BS " + urlData[1] + " Channel= " + urlData[2] + " URL " +  urlData[4]);
+	                URLValues urlVal_IND = new URLValues();	      
+	                
+	                urlVal_IND.setBusinessSystem(urlData[1]);
+	                urlVal_IND.setChannelName(urlData[2]);
+	                urlVal_IND.setUrlValue(urlData[4]);
+	                
+	                urlVals_list.add(urlVal_IND);
+	                
+	                
+	                
+	                URI uri;
+	                try {
+	                	uri = new URI(urlVal_IND.getUrlValue());
+	                	
+	                	String domain = uri.getHost();
+	                	if ((domain != null) && uri.toString().substring(0,4).equals("http") ){
+	                	String port =  Integer.toString(uri.getPort());
+	                	String path = uri.getPath();
+	                	CompareFormat urlComp = new CompareFormat();	                	
+	                	urlComp.setChannel(urlVal_IND.getChannelName());
+	                	urlComp.setHost(remove_suffix(domain));
+	                	urlComp.setFile(path);
+	                	urlComp.setPort(port);
+	                	urlComp.setURL_STRING(urlVal_IND.getUrlValue());
+	                	
+//	                	if (urlComp.channel.equals("CC_SOAP_RCV_BGEDDHH003")){
+	                	commonFormat_URl_list.add(urlComp);}
+//	                	}
+	                	
+	                } catch (URISyntaxException e) {
+	                	// TODO Auto-generated catch block
+//	                	e.printStackTrace();
+	                }
+	                
+	                
+	                
+	                }
+	            }
+
+	        } catch (FileNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (br != null) {
+	                try {
+	                    br.close();
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }
+
+		
+			String csvFile2 = "C:\\Temp\\ZXACT.csv";
+	        BufferedReader br2 = null;
+	        String line2 = "";
+
+
+	        try {
+
+	            br2 = new BufferedReader(new FileReader(csvFile2));
+	            while ((line2 = br2.readLine()) != null  ) {
+
+	                // use comma as separator
+	                String[] zxact = line2.split(cvsSplitBy);
+	                
+	                if (zxact.length > 4 ){
+	                	
+	            		ZXACTVals zxactVal_IND = new ZXACTVals();
+	            		CompareFormat zxactComp = new CompareFormat();	            		
+	                	
+	                zxactVal_IND.setServer(zxact[0]);
+	                zxactVal_IND.setAdapter(zxact[1]);
+	                zxactVal_IND.setService(zxact[2]);
+	                zxactVal_IND.setHttpPort(zxact[3]);
+	                zxactVal_IND.setHttpsPort(zxact[4]);
+	                
+	                zxactVals_list.add(zxactVal_IND);
+	                
+	                zxactComp.setChannel(zxactVal_IND.getAdapter());
+	                zxactComp.setHost(remove_suffix ( zxactVal_IND.getServer()));
+	                zxactComp.setFile(zxactVal_IND.getService());
+	                zxactComp.setPort( zxactVal_IND.getHttpsPort() != "" ? zxactVal_IND.getHttpsPort() : zxactVal_IND.getHttpPort() );
+	                zxactComp.setURL_STRING( zxactVal_IND.getServer() +  zxactVal_IND.getHttpsPort() + zxactVal_IND.getService() );
+	                
+	                
+//	                if ( zxactComp.channel.equals("CC_SOAP_RCV_BGEDDHH003") ){
+	                commonFormat_ZXACT_list.add(zxactComp);
+	                
+//	                }
+	                
+	                }
+	            }
+
+	        } catch (FileNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (br != null) {
+	                try {
+	                    br.close();
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }	        
+		
+Boolean check = false;	        
+
+for ( CompareFormat commonformat_URL_ind : commonFormat_URl_list ){
+	check = false;
+	
+ for (CompareFormat commonformat_zxact_ind : commonFormat_ZXACT_list ) {
+	 
+	 if( commonformat_URL_ind.getHost().toLowerCase().equals( commonformat_zxact_ind.getHost().toLowerCase())
+	 && commonformat_URL_ind.getPort().equals( commonformat_zxact_ind.getPort()) 
+	 && commonformat_URL_ind.getFile().equals( commonformat_zxact_ind.getFile()))
+	 { 
+		 System.out.print(" Match found for : "  +  commonformat_URL_ind.getChannel() + '\n');
+		 check = true; 
+		 break;
+	 }
+	 
+ 
+ 
+ }
+ 
+ if (!check){
+ System.out.print(" No match found for : " + commonformat_URL_ind.getChannel() + '\n');
+ }
+
+}
+		
+}
+}
