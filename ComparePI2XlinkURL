@@ -13,14 +13,14 @@ public class ComparePI2XlinkURL {
 	public static String remove_suffix(String in){
 		String out = in;
 		
-		out = out.replace(".ctr.nestle.com", "");
-		out = out.replace(".eur.nestle.com", "");
-		out = out.replace(".aoa.nestle.com", "");
-		out = out.replace(".ams.nestle.com", "");
-		out = out.replace(".nestle.com", "");
-		out = out.replace(".nestle.de", "");
-		out = out.replace(".nestle.es", "");
-		out = out.replace(".nestle.fr", "");
+		out = out.replace(".ctr.company.com", "");
+		out = out.replace(".eur.company.com", "");
+		out = out.replace(".aoa.company.com", "");
+		out = out.replace(".ams.company.com", "");
+		out = out.replace(".company.com", "");
+		out = out.replace(".company.de", "");
+		out = out.replace(".company.es", "");
+		out = out.replace(".company.fr", "");
 		
 		return out;
 		
@@ -40,7 +40,7 @@ public class ComparePI2XlinkURL {
 		ArrayList<CompareFormat> commonFormat_ZXACT_list = new ArrayList<CompareFormat>();
 	 
 		
-		 String csvFile = "C:\\Temp\\E1Q_URL.csv";
+		 String csvFile = "C:\\Temp\\PI_URL.csv";
 	        BufferedReader br = null;
 	        String line = "";
 	        String cvsSplitBy = ",";
@@ -80,9 +80,9 @@ public class ComparePI2XlinkURL {
 	                	urlComp.setPort(port);
 	                	urlComp.setURL_STRING(urlVal_IND.getUrlValue());
 	                	
-//	                	if (urlComp.channel.equals("CC_SOAP_RCV_BGEDDHH003")){
+
 	                	commonFormat_URl_list.add(urlComp);}
-//	                	}
+
 	                	
 	                } catch (URISyntaxException e) {
 	                	// TODO Auto-generated catch block
@@ -109,7 +109,7 @@ public class ComparePI2XlinkURL {
 	        }
 
 		
-			String csvFile2 = "C:\\Temp\\ZXACT.csv";
+		String csvFile2 = "C:\\Temp\\ZXACT.csv";
 	        BufferedReader br2 = null;
 	        String line2 = "";
 
@@ -142,11 +142,10 @@ public class ComparePI2XlinkURL {
 	                zxactComp.setURL_STRING( zxactVal_IND.getServer() +  zxactVal_IND.getHttpsPort() + zxactVal_IND.getService() );
 	                
 	                
-//	                if ( zxactComp.channel.equals("CC_SOAP_RCV_BGEDDHH003") ){
+
 	                commonFormat_ZXACT_list.add(zxactComp);
 	                
-//	                }
-	                
+
 	                }
 	            }
 
